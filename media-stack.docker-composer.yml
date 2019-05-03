@@ -1,0 +1,108 @@
+version: '2'
+
+services:
+  filebrowser:
+    container_name: filebrowser
+    image: filebrowser/filebrowser:latest
+    restart: always
+    ports:
+      - 8001:80
+    volumes:
+      - /home/jens:/srv
+      
+  urbackup:
+    container_name: urbackup_server
+    image: uroni/urbackup-server
+    restart: always
+    ports:
+      - 55413-55415:55413-55415
+      - 35623:35623/udp
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - /home/jens/.urbackup/backups:/backups
+      - /home/jens/.urbackup/database:/var/urbackup
+      - /home/jens/.urbackup/log:/var/log
+      - /home/jens/.urbackup:/usr/share/urbackup
+
+  shairport:
+    container_name: shairport
+    image: kevineye/shairport-sync:latest
+    network_mode: host
+    restart: always
+    environment:
+      - AIRPLAY_NAME=hellfish
+    devices:
+      - /dev/snd
+      
+  db:
+    container_name: wordpress_db
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  wordpress:
+    container_name: wordpress_app
+    image: wordpress:latest
+    ports:
+      - 8000:80
+    restart: always
+    volumes:
+      - wordpress_data:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      
+  radarr:
+    image: "linuxserver/radarr"
+    container_name: "radarr"
+    volumes:
+      - /home/jens/.radarr/config:/config
+      - /home/jens/Downloads/completed:/downloads
+      - /home/jens/media/movies:/movies
+      - /home/jens/.radarr/shared:/shared
+    ports:
+      - "8002:7878"
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+   
+  jackett:
+    image: "linuxserver/jackett"
+    container_name: "jackett"
+    volumes:
+      - /home/jens/.jacket/config:/config
+      - /home/jens/Downloads:/downloads
+    ports:
+      - "8004:9117"
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+    volumes:
+      - /home/jens/.transmission/config:/config
+      - /home/jens/Downloads:/downloads
+      - /home/jens/.transmission/watch:/watch
+    ports:
+      - 8005:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
