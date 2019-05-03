@@ -1,2 +1,2 @@
-# home-server
+# a personal home server
 docker-based home server project
