@@ -20,10 +20,10 @@ services:
     environment:
       - TZ=Europe/Berlin
     volumes:
-      - /home/jens/.urbackup/backups:/backups
-      - /home/jens/.urbackup/database:/var/urbackup
-      - /home/jens/.urbackup/log:/var/log
-      - /home/jens/.urbackup:/usr/share/urbackup
+      - /home/${user}/.urbackup/backups:/backups
+      - /home/${user}/.urbackup/database:/var/urbackup
+      - /home/${user}/.urbackup/log:/var/log
+      - /home/${user}/.urbackup:/usr/share/urbackup
 
   shairport:
     container_name: shairport
@@ -63,10 +63,10 @@ services:
     image: "linuxserver/radarr"
     container_name: "radarr"
     volumes:
-      - /home/jens/.radarr/config:/config
-      - /home/jens/Downloads/completed:/downloads
-      - /home/jens/media/movies:/movies
-      - /home/jens/.radarr/shared:/shared
+      - /home/${user}/.radarr/config:/config
+      - /home/${user}/Downloads/completed:/downloads
+      - /home/${user}/media/movies:/movies
+      - /home/${user}/.radarr/shared:/shared
     ports:
       - "8002:7878"
     restart: unless-stopped
@@ -79,8 +79,8 @@ services:
     image: "linuxserver/jackett"
     container_name: "jackett"
     volumes:
-      - /home/jens/.jacket/config:/config
-      - /home/jens/Downloads:/downloads
+      - /home/${user}/.jacket/config:/config
+      - /home/${user}/Downloads:/downloads
     ports:
       - "8004:9117"
     restart: unless-stopped
@@ -98,9 +98,9 @@ services:
       - TZ=Europe/Berlin
       - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
     volumes:
-      - /home/jens/.transmission/config:/config
-      - /home/jens/Downloads:/downloads
-      - /home/jens/.transmission/watch:/watch
+      - /home/${user}/.transmission/config:/config
+      - /home/${user}/Downloads:/downloads
+      - /home/${user}/.transmission/watch:/watch
     ports:
       - 8005:9091
       - 51413:51413
