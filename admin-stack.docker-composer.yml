@@ -1,0 +1,32 @@
+version: "2"
+
+services:
+      
+  watchtower:
+    container_name: watchtower
+    image: v2tec/watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *" --cleanup
+    
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    hostname: hellfish
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      TZ: 'Europe/Berlin'
+      WEBPASSWORD: 'av3d4gtV'
+    volumes:
+       - /home/jens/.pihole:/etc/pihole
+       - /home/jens/.dnsmasq.d:/etc/dnsmasq.d
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart: unless-stopped
