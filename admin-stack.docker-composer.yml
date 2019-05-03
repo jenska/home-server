@@ -24,8 +24,8 @@ services:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: 'av3d4gtV'
     volumes:
-       - /home/jens/.pihole:/etc/pihole
-       - /home/jens/.dnsmasq.d:/etc/dnsmasq.d
+       - /home/${user}/.pihole:/etc/pihole
+       - /home/${user}/.dnsmasq.d:/etc/dnsmasq.d
     dns:
       - 127.0.0.1
       - 1.1.1.1
