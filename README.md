@@ -20,9 +20,8 @@ Several Raspberry PIs and a NAS were already in place at my household. I wasn't 
 
 ### Core Software Installation
 #### Ubuntu Server 18.04 LTS
-Download and install as described at ubunut.com
+Download and install as described at <https://www.ubuntu.com/download/server>. OpenSSH packages are included by default.
 
-with OpennSSH 
 If you want to run your own DNS server (as a pi-hole docker container), please follow these steps:
 
 Login as root or enter ```sudo -i```
@@ -64,5 +63,7 @@ Login as root or enter ```sudo -i```
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
   add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   apt update
-  apt upgrade
+  apt install docker_ce
 ```
+
+#### Docker Composer or Portainer
