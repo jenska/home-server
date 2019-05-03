@@ -12,15 +12,16 @@ Build a multi-purpose, linux-based home server based on legacy hardware for
 Several Raspberry PIs and a NAS were already in place at my household. I wasn't satisfied with the performance and the maintenance effort of this devices and decided to build an all-in-one-machine for all my use-cases in mind.
 
 ### Hardware Recommendation
-- 2-4 core amd64 CPU
+- 2-4 core amd64 CPU. 64bit is recommended, since future Ubuntu versions will not support 32bit anymore.
 - at least 4 GB RAM
 - mainboard with SATA and fast LAN adapter 
 - SSD for OS and docker images
 - tons of NAS HDDs
 
 ### Core Software Installation
-#### Ubuntu Server 18.04 LTS
+#### Ubuntu Server 18.04 LTS 64bit
 Download and install as described at <https://www.ubuntu.com/download/server>. OpenSSH packages are included by default.
+I decided to use Ubuntu since I am already familiar with the desktop version of it and some other Debian derivates. 
 
 If you want to run your own DNS server (as a pi-hole docker container), please follow these steps:
 
@@ -44,7 +45,7 @@ Add your host name to the first and second line of this file
 127.0.0.1       localhost.localdomain   localhost <your-host>
 ::1             localhost6.localdomain6 localhost6 <your-host>6
 
-# The following lines are desirable for IPv6 capable hosts
+# The following lines are for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
 ff02::1 ip6-allnodes
